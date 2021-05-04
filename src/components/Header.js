@@ -6,7 +6,7 @@ function Header() {
       <h1 className="text-align-center">Random User Directory</h1>
       <style jsx="true">{`
         h1 {
-          background-color: green;
+          background-color: black;
           color: white;
           font-size: 30px;
           text-align: center;

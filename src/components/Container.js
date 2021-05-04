@@ -6,15 +6,31 @@ import TableContainer from "./TableContainer"
 class Container extends Component {
 
   state = {
-    // state will equal the array of api call
-    // when searched, push a filtered array to state
-    API
+    users: [],
+    search: "",
+    sort: "",
+    //
+
   };
 
-  componentDidMount() {
-    // should not have to set state, should auto load full api call
-
-  }
+  // componentDidMount() {
+  //   // should reset state with api call upon page load
+  //   API.getUserList()
+  //   .then(res => {
+  //     let userArray = res.data.results.map(user => {
+  //       return {
+  //         first: user.name.first,
+  //         last: user.name.last,
+  //         phone: user.phone,
+  //         image: user.picture.thumbnail,
+  //         email: user.email,
+  //         dob: user.dob.date
+  //       }
+  //     });
+  //     this.setState({ users: userArray })
+  //   })
+  //   .catch(err => console.log(err))
+  // }
   
   alphabetizeNames = query => {
     // not sure if need to pass query through
@@ -40,7 +56,8 @@ class Container extends Component {
     return (
       <div>
         <SearchBar />
-        <TableContainer />
+        <div className="container"><TableContainer /></div>
+        
       </div>
     );
   }

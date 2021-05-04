@@ -4,9 +4,28 @@
 
 function TableContainer(props) {
     return (
-        <div>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date of Birth</th>
+                </tr>
+            </thead>
+            <tbody>
+{/* this is what will be mapped over */}
+                <tr>
+                    <th scope="row">{props.image}</th>
+                    <td>`${props.first}` `${props.last}`</td>
+                    <td>{props.phone}</td>
+                    <td>{props.email}</td>
+                    <td>{props.dob}</td>
+                </tr>
 
-        </div>
+            </tbody>
+        </table>
     )
 }
 

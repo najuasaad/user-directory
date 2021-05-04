@@ -7,6 +7,11 @@ function App() {
     <div>
       <Header />
       <Container />
+      <style jsx="true">{`
+        body {
+          background-color: grey
+        }`}
+      </style>
     </div>
   // change this to a div with a header and the container
   )
