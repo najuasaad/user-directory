@@ -6,7 +6,7 @@ function App() {
   return (
     <div>
       <Header />
-      {/* <Container /> */}
+      <Container />
     </div>
   // change this to a div with a header and the container
   )

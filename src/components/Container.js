@@ -1,53 +1,46 @@
 import React, { Component } from "react";
-import SearchForm from "./SearchForm";
-import ResultList from "./ResultList";
 import API from "../utils/API";
+import SearchBar from "./Search"
+import TableContainer from "./TableContainer"
 
 class Container extends Component {
+
   state = {
     // state will equal the array of api call
-    search: "",
-    results: []
+    // when searched, push a filtered array to state
+    API
   };
 
-  // When this component mounts, search the Giphy API for pictures of kittens
   componentDidMount() {
-    // this will search all to start
-    this.searchGiphy("kittens");
+    // should not have to set state, should auto load full api call
+
+  }
+  
+  alphabetizeNames = query => {
+    // not sure if need to pass query through
+    // not sure how to do this function yet
   }
 
-  searchGiphy = query => {
-    // search is the filter
-    API.search(query)
-      .then(res => this.setState({ results: res.data.data }))
-      .catch(err => console.log(err));
-  };
+  searchNames = query => {
+    // should filter by query being typed
+  }
 
   handleInputChange = event => {
-    // search bar will update state to filtered array 
-    const name = event.target.name;
-    const value = event.target.value;
-    this.setState({
-      [name]: value
-    });
-  };
+    // search bar 
+    // should update state after 3 keystrokes? start filtering by names
+    // this comes from "on change"
+  }
 
-  // When the form is submitted, search the Giphy API for `this.state.search`
-  handleFormSubmit = event => {
-    // 
+  handleSearch = event => {
     event.preventDefault();
-    this.searchGiphy(this.state.search);
-  };
+    // should search through employees by name after 3 keystrokes
+  }
 
   render() {
     return (
       <div>
-        <SearchForm
-          search={this.state.search}
-          handleFormSubmit={this.handleFormSubmit}
-          handleInputChange={this.handleInputChange}
-        />
-        <ResultList results={this.state.results} />
+        <SearchBar />
+        <TableContainer />
       </div>
     );
   }
