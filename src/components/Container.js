@@ -1,35 +1,38 @@
 import React, { Component } from "react";
-import API from "../utils/API";
-import SearchBar from "./Search"
+import axios from "axios";
 import TableContainer from "./TableContainer"
+
+let userData
 
 class Container extends Component {
 
   state = {
     users: [],
-    search: "",
-    sort: "",
+    // search: "",
+    // sort: "",
     //
 
   };
 
-  // componentDidMount() {
-  //   // should reset state with api call upon page load
-  //   API.getUserList()
-  //   .then(res => {
-  //     let userArray = res.data.results.map(user => {
-  //       return {
-  //         first: user.name.first,
-  //         last: user.name.last,
-  //         phone: user.phone,
-  //         image: user.picture.thumbnail,
-  //         email: user.email,
-  //         dob: user.dob.date
-  //       }
-  //     });
-  //     this.setState({ users: userArray })
+  async componentDidMount() {
+    // should reset state with api call upon page load
+    // plain api call, get all
+    let api = await axios.get('https://randomuser.me/api/?results=100')
+    userData = api.data.results
+    this.setState({users: userData})
+    // console.log(this.state.users) getting back array of objects
+
+    // this.api()
+    // console.log(this.state.users)
+  }
+
+  // async api() {
+  //   const apiGet = await axios.get('https://randomuser.me/api/?results=100')
+  //   console.log(apiGet.data.results)
+    
+  //   this.setState({
+  //     users: apiGet.data.results
   //   })
-  //   .catch(err => console.log(err))
   // }
   
   alphabetizeNames = query => {
@@ -42,9 +45,9 @@ class Container extends Component {
   }
 
   handleInputChange = event => {
-    // search bar 
-    // should update state after 3 keystrokes? start filtering by names
-    // this comes from "on change"
+    this.setState({
+      search: event.target.value,
+    })
   }
 
   handleSearch = event => {
@@ -55,9 +58,37 @@ class Container extends Component {
   render() {
     return (
       <div>
-        <SearchBar />
-        <div className="container"><TableContainer /></div>
-        
+        <div className="container">
+          <div className="row">
+            <input
+              onChange={this.handleInputChange}
+              type="text"
+              className = "input-group m-5 form-control"
+              placeholder="Start typing a name to search"
+            />
+          </div>
+        </div>
+        <div className="container">
+          <h1>{this.state.search}</h1>
+          <table className="table table-dark table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date of Birth</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.users.map((user) => {
+                return <TableContainer key={user.picture.thumbnail} {...user} />
+              })}
+              
+              
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
