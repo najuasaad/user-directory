@@ -10,7 +10,7 @@ class Container extends Component {
     users: [],
     search: "",
     filteredUsers: [],
-    // sort: "",
+    sort: "",
   };
 
   async componentDidMount() {
@@ -20,11 +20,6 @@ class Container extends Component {
     userData = api.data.results
     this.setState({users: userData, filteredUsers: userData})
     // console.log(this.state.users)/*  getting back array of objects */
-  }
-  
-  alphabetizeNames = query => {
-    // not sure if need to pass query through
-    // not sure how to do this function yet
   }
 
   filterThroughNames(searchTerm) { 
@@ -36,6 +31,58 @@ class Container extends Component {
       //console.log(filtered)
       this.setState( {filteredUsers: filtered })
     }
+  }
+
+  sort = (dir) => {
+    let direction = dir
+    let sorted = this.state.filteredUsers.sort( function (name1, name2) {
+      let user1 = (name1.name.last).toLowerCase();
+      let user2 = (name2.name.last).toLowerCase();
+      
+      if (direction === "ascending") {
+        if (user1 < user2) {return -1;} else {return 1;}
+      } 
+      
+      if (direction === "decending") {
+        if (user1 > user2) {return -2;} else {return 2;}
+      }
+    })
+    this.setState({ filteredList: sorted})   
+  }
+
+  sortE = (dir) => {
+    let direction = dir
+    let sorted = this.state.filteredUsers.sort( function (name1, name2) {
+      let user1 = (name1.email).toLowerCase();
+      let user2 = (name2.email).toLowerCase();
+      
+      if (direction === "ascending") {
+        if (user1 < user2) {return -1;} else {return 1;}
+      } 
+      
+      if (direction === "decending") {
+        if (user1 > user2) {return -2;} else {return 2;}
+      }
+    })
+    this.setState({ filteredList: sorted})   
+  }
+
+  handleAscendSort = () => {
+    this.setState({sort: "ascending"})
+    this.sort("ascending");
+  }
+
+  handleDecSort = () => {
+    this.setState({sort: "decending"})
+    this.sort("decending");
+  }
+
+  handleEmailA = () => {
+    this.sortE("ascending");
+  }
+
+  handleEmailZ = () => {
+    this.sortE("decending");
   }
  
   handleInputChange = event => {
@@ -65,9 +112,13 @@ class Container extends Component {
             <thead>
               <tr>
                 <th scope="col">Image</th>
-                <th scope="col">Name</th>
+                <th scope="col">
+                  <button className="btn btn-secondary" onClick={this.handleDecSort}>↓</button> Name <button className="btn btn-secondary" onClick={this.handleAscendSort}>↑</button>
+                </th>
                 <th scope="col">Phone</th>
-                <th scope="col">Email</th>
+                <th scope="col">
+                  <button className="btn btn-secondary" onClick={this.handleEmailZ}>↓</button> Email <button className="btn btn-secondary" onClick={this.handleEmailA}>↑</button>
+                </th>
                 <th scope="col">Date of Birth</th>
               </tr>
             </thead>
