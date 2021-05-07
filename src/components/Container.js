@@ -10,7 +10,6 @@ class Container extends Component {
     users: [],
     search: "",
     filteredUsers: [],
-    sort: "",
   };
 
   async componentDidMount() {
@@ -68,12 +67,10 @@ class Container extends Component {
   }
 
   handleAscendSort = () => {
-    this.setState({sort: "ascending"})
     this.sort("ascending");
   }
 
   handleDecSort = () => {
-    this.setState({sort: "decending"})
     this.sort("decending");
   }
 
@@ -107,7 +104,7 @@ class Container extends Component {
           </div>
         </div>
         <div className="container">
-          <h1>{this.state.search}</h1>
+          {/* <h1>{this.state.search}</h1> */}
           <table className="table table-dark table-striped">
             <thead>
               <tr>
