@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import TableContainer from "./TableContainer"
+import User from "./User"
 
 let userData
 
@@ -8,10 +8,9 @@ class Container extends Component {
 
   state = {
     users: [],
-    // search: "",
+    search: "",
+    filteredUsers: [],
     // sort: "",
-    //
-
   };
 
   async componentDidMount() {
@@ -19,40 +18,31 @@ class Container extends Component {
     // plain api call, get all
     let api = await axios.get('https://randomuser.me/api/?results=100')
     userData = api.data.results
-    this.setState({users: userData})
-    // console.log(this.state.users) getting back array of objects
-
-    // this.api()
-    // console.log(this.state.users)
+    this.setState({users: userData, filteredUsers: userData})
+    // console.log(this.state.users)/*  getting back array of objects */
   }
-
-  // async api() {
-  //   const apiGet = await axios.get('https://randomuser.me/api/?results=100')
-  //   console.log(apiGet.data.results)
-    
-  //   this.setState({
-  //     users: apiGet.data.results
-  //   })
-  // }
   
   alphabetizeNames = query => {
     // not sure if need to pass query through
     // not sure how to do this function yet
   }
 
-  searchNames = query => {
-    // should filter by query being typed
+  filterThroughNames(searchTerm) { 
+    if( !searchTerm.length ){
+      this.setState( {filteredUsers: this.state.users })
+    } else {
+      //console.log(searchTerm)
+      const filtered = this.state.users.filter(user => user.name.first.toLowerCase().includes(searchTerm) || user.name.last.toLowerCase().includes(searchTerm))
+      //console.log(filtered)
+      this.setState( {filteredUsers: filtered })
+    }
   }
-
+ 
   handleInputChange = event => {
     this.setState({
-      search: event.target.value,
+      search: event.target.value.toLowerCase(),
     })
-  }
-
-  handleSearch = event => {
-    event.preventDefault();
-    // should search through employees by name after 3 keystrokes
+    this.filterThroughNames(event.target.value.toLowerCase())
   }
 
   render() {
@@ -62,6 +52,7 @@ class Container extends Component {
           <div className="row">
             <input
               onChange={this.handleInputChange}
+              onKeyUp={this.handleSearch}
               type="text"
               className = "input-group m-5 form-control"
               placeholder="Start typing a name to search"
@@ -81,11 +72,9 @@ class Container extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.users.map((user) => {
-                return <TableContainer key={user.picture.thumbnail} {...user} />
-              })}
-              
-              
+              {this.state.filteredUsers.map((user) => (
+               <User key={user.email} {...user} />
+              ))}
             </tbody>
           </table>
         </div>
